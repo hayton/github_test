@@ -12,8 +12,10 @@ List GitHub users.
 # Bonus
 Please feel free to ignore bonus items if there is no free time.
 - Implement pagination feature by utilizing [GitHub Pagination](https://docs.github.com/en/rest/guides/traversing-with-pagination), please start from "since=0, page size=20"
-- Upon clicking on an user in the list, open a page for a single user to show more detailed information.
+- Upon clicking on an user in the list, open a page for a single user to show more detailed information. (GitHub account information API)
 - Consider how to handle caching or connection issues to improve user experience.
+- Writing unit tests.
+- Writing UI tests.
 
 # Note
 - Fork this repository to your GitHub account.
