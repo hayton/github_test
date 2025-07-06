@@ -1,5 +1,7 @@
 package com.hayton.eat365demo.list.view;
 
+import static com.hayton.eat365demo.detail.view.DetailFragment.ARG_USER;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -52,7 +54,10 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ListAdapter adapter = new UsersListAdapter(
-                new SimpleUserDiffCallback()
+                new SimpleUserDiffCallback(),
+                user -> {
+                    viewModel.getUser(user.getLogin());
+                }
         );
         binding.rvUsers.setAdapter(adapter);
         binding.rvUsers.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -80,6 +85,13 @@ public class MainFragment extends Fragment {
             binding.progressHorizontal.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         });
 
+        viewModel.publicUserLiveData.observe(getViewLifecycleOwner(), user -> {
+            if (user == null) return;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ARG_USER, user);
+            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_detailFragment, bundle);
+            viewModel.publicUserLiveData.setValue(null);
+        });
 
         if (!isAdded) {
             viewModel.getUsers();

@@ -41,6 +41,7 @@ public class MainFragmentViewModel extends ViewModel {
     public boolean isLoading = false;
     public MutableLiveData<List<SimpleUser>> liveData = new MutableLiveData<>();
     public MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<>();
+    public MutableLiveData<PublicUser> publicUserLiveData = new MutableLiveData<>();
 
     public void getUsers() {
         isLoading = true;
@@ -70,6 +71,25 @@ public class MainFragmentViewModel extends ViewModel {
                         liveData.setValue(null);
                         isLoading = false;
                         isLoadingLiveData.setValue(false);
+                    }
+                }
+        );
+    }
+
+    public void getUser(String login) {
+        githubRepository.getUser(login).enqueue(
+                new Callback<PublicUser>() {
+
+                    @Override
+                    public void onResponse(Call<PublicUser> call, Response<PublicUser> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            publicUserLiveData.setValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PublicUser> call, Throwable t) {
+
                     }
                 }
         );

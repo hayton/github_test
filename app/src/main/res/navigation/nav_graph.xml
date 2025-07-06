@@ -7,7 +7,14 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.hayton.eat365demo.list.view.MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.hayton.eat365demo.detail.view.DetailFragment" />
 
 
 </navigation>

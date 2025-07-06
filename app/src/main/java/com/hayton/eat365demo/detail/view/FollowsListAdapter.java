@@ -1,4 +1,4 @@
-package com.hayton.eat365demo.list.view;
+package com.hayton.eat365demo.detail.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,62 +14,43 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hayton.eat365demo.R;
-import com.hayton.eat365demo.databinding.ViewholderSimpleuserBinding;
+import com.hayton.eat365demo.databinding.ViewholderFollowBinding;
 import com.hayton.eat365demo.model.SimpleUser;
 
-class UsersListAdapter extends ListAdapter<SimpleUser, RecyclerView.ViewHolder> {
-    protected UsersListAdapter(
-            @NonNull DiffUtil.ItemCallback<SimpleUser> diffCallback,
-            @NonNull OnItemClickListener onItemClickListener
-    ) {
+public class FollowsListAdapter extends ListAdapter<SimpleUser, RecyclerView.ViewHolder> {
+    protected FollowsListAdapter(@NonNull DiffUtil.ItemCallback<SimpleUser> diffCallback) {
         super(diffCallback);
-        UsersListAdapter.onItemClickListener = onItemClickListener;
     }
-
-    public interface OnItemClickListener {
-        void onItemClick(SimpleUser user);
-    }
-
-    private static OnItemClickListener onItemClickListener;
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ViewholderSimpleuserBinding binding = ViewholderSimpleuserBinding.inflate(inflater, parent, false);
-        return new UserViewHolder(binding);
+        View view = inflater.inflate(R.layout.viewholder_follow, parent, false);
+        ViewholderFollowBinding binding = ViewholderFollowBinding.inflate(inflater, parent, false);
+        return new FollowViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        UserViewHolder userViewHolder = (UserViewHolder) holder;
-        userViewHolder.bind(getItem(position));
+        ((FollowViewHolder) holder).bind(getItem(position));
     }
 
-    static class UserViewHolder extends RecyclerView.ViewHolder {
-        private final ViewholderSimpleuserBinding binding;
+    static class FollowViewHolder extends RecyclerView.ViewHolder {
+        private final ViewholderFollowBinding binding;
 
-        public UserViewHolder(@NonNull ViewholderSimpleuserBinding binding) {
+        public FollowViewHolder(@NonNull ViewholderFollowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(SimpleUser user) {
-
             binding.tvLogin.setText(user.getLogin());
-            binding.tvSiteAdmin.setText(user.getSiteAdmin().toString());
-
             Glide.with(binding.ivAvatar.getContext())
                     .load(user.getAvatarUrl().toString())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .circleCrop()
                     .into(binding.ivAvatar);
-
-            itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(user);
-                }
-            });
         }
     }
 }
