@@ -8,3 +8,4 @@
 - Glide for image loading.
 - Retrofit for HTTP connection.
 - Navigation component to navigate between fragments.
+- ListAdapter with DiffUtil to support better Recyclerview loading.
